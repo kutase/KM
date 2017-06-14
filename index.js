@@ -17,7 +17,7 @@ function graphFuncG (x, y) {
 	return b*x - Math.pow(x, 2)*y
 }
 
-function drawLine (x1, y1, x2, y2, strokeStyle="grey", lineWidth=4) {
+function drawLine (x1, y1, x2, y2, strokeStyle="black", lineWidth=2) {
     ctx.strokeStyle = strokeStyle
     ctx.lineWidth = lineWidth
     ctx.beginPath()
@@ -26,19 +26,22 @@ function drawLine (x1, y1, x2, y2, strokeStyle="grey", lineWidth=4) {
     ctx.stroke()
 }
 
-let scale = 200
+function setScale (scale, val) {
+	return val * scale + canvas.width / 2
+}
+
+let scale = 50
 function drawGraph () {
-	let x = 1, y = 1, xNew, yNew
+	let x1 = 0, y1 = 0, x2 = 0, y2 = 0
 
-	for (let i = 0; i < 1000; i++) {
-		x += h*graphFuncF(x, y)
-		y += h*graphFuncG(x, y)
+	for (let i = 0; i < 10000; i++) {
+		x2 = x1 + h*graphFuncF(x1, y1)
+		y2 = y1 + h*graphFuncG(x1, y1)
 
-		drawPixel(x*scale + canvas.width / 2 - scale, y*scale + canvas.width / 2 - scale)
-		// drawLine(x*scale + canvas.width / 2 - scale, y*scale + canvas.width / 2 - scale, xNew*scale + canvas.width / 2 - scale, yNew*scale + canvas.width / 2 - scale)
+		drawLine(setScale(scale, x1), setScale(scale, y1), setScale(scale, x2), setScale(scale, y2))
 
-		// x = xNew
-		// y = yNew
+		x1 = x2
+		y1 = y2
 	}
 }
 
